@@ -1,8 +1,10 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useText } from "../hooks/useText";
+import { Letter } from "./Letter";
 
 export function TypeArea() {
   const textArea = useRef<HTMLTextAreaElement>(null);
+  const textDisplay = useRef<HTMLDivElement>(null);
 
   const resetText = () => {
     setActive([0, 0]);
@@ -25,7 +27,19 @@ export function TypeArea() {
       }
     }
     textArea.current?.addEventListener("keydown", onKeyDown);
+    textArea.current?.focus();
+    textDisplay.current?.addEventListener("click", () =>
+      textArea.current?.focus()
+    );
   }, [text]);
+
+  type statesType = "active" | "inactive" | "error";
+
+  const initialStates: statesType[][] = new Array(text.length).map((_, i) =>
+    new Array(text[i].length).fill("inactive")
+  );
+
+  const [states, setStates] = useState(initialStates);
 
   const [active, setActive] = useState([0, 0]);
 
@@ -48,43 +62,25 @@ export function TypeArea() {
           name="typing"
           ref={textArea}
           id="typing"
-          className="w-full h-[60%] z-1 opacity-0 absolute"
+          className="opacity-0"
           onChange={handleType}
         ></textarea>
-        <div className="text-primary w-full font-[10] text-[2.3rem] leading-[2.3rem] max-h-40 overflow-hidden flex flex-wrap">
-          {text.map((word, index) => (
-            <div key={word + index} className={`word p-2 flex`}>
-              {word.split("").map((char, i) =>
-                active[0] === index && active[1] === i ? (
-                  <span
-                    key={word + index + char + i}
-                    className="flex items-center justify-center relative"
-                  >
-                    <span className="barra absolute left-0"></span>
-                    <span
-                      className={
-                        active[0] > index ||
-                        (active[0] === index && active[1] > i)
-                          ? "text-white"
-                          : ""
-                      }
-                    >
-                      {char}
-                    </span>
-                  </span>
-                ) : (
-                  <span
-                    key={word + index + char + i}
-                    className={
-                      active[0] > index ||
-                      (active[0] === index && active[1] > i)
-                        ? "text-white"
-                        : ""
-                    }
-                  >
-                    {char}
-                  </span>
-                )
+        <div className="text-primary w-full font-[10] text-[2.3rem] leading-[2.3rem] max-h-40 overflow-hidden flex flex-wrap" ref={textDisplay}>
+          {text.map((word, wordIndex) => (
+            <div key={word + wordIndex} className={`word p-2 flex relative`}>
+              {word.split("").map((char, charIndex) => (
+                <Letter
+                  key={word + wordIndex + char + charIndex}
+                  active={active}
+                  word={word}
+                  wordIndex={wordIndex}
+                  char={char}
+                  charIndex={charIndex}
+                  state={states[wordIndex][charIndex]}
+                />
+              ))}
+              {active[0] === wordIndex && active[1] === word.length && (
+                <span className="barra absolute right-1"></span>
               )}
             </div>
           ))}
