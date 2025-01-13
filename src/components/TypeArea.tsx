@@ -119,6 +119,7 @@ export function TypeArea() {
                   char={char}
                   charIndex={charIndex}
                   state={states[wordIndex][charIndex]}
+                  playing={playing}
                 />
               ))}
               {active[0] === wordIndex && active[1] === word.length && (
