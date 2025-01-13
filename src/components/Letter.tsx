@@ -15,33 +15,19 @@ export function Letter({
   charIndex: number;
   state: statesType;
 }) {
+  const color = {
+    active: "text-white",
+    inactive: "text-primary",
+    error: "text-red",
+  };
+  const key = word + wordIndex + char + charIndex;
   return active[0] === wordIndex && active[1] === charIndex ? (
-    <span
-      key={word + wordIndex + char + charIndex}
-      className="flex items-center justify-center relative"
-    >
+    <span key={key} className="flex items-center justify-center relative">
       <span className="barra absolute left-0"></span>
-      <span
-        className={
-          active[0] > wordIndex ||
-          (active[0] === wordIndex && active[1] > charIndex)
-            ? "text-white"
-            : ""
-        }
-      >
-        {char}
-      </span>
+      <span className={color[state]}>{char}</span>
     </span>
   ) : (
-    <span
-      key={word + wordIndex + char + charIndex}
-      className={
-        active[0] > wordIndex ||
-        (active[0] === wordIndex && active[1] > charIndex)
-          ? "text-white"
-          : ""
-      }
-    >
+    <span key={key} className={color[state]}>
       {char}
     </span>
   );

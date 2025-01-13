@@ -10,7 +10,8 @@ export default {
       primary:'#646669',
       secondary:'#2c2e31',
       yellow:'#e2b714',
-      white:'#d1d0c5'
+      white:'#d1d0c5',
+      red:'#ca4754'
     },
     extend: {},
   },

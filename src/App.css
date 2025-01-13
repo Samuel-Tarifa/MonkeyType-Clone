@@ -2,25 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
-:root{
-  font-family: Roboto Mono,'Source Code Pro',monospace;
+:root {
+  font-family: Roboto Mono, "Source Code Pro", monospace;
 }
 
-
-.barra{
+.barra {
   background-color: #e2b714;
   width: 2px;
   height: 2.3rem;
   color: #e2b714;
   display: block;
-  animation: blink 2s infinite;
 }
 
+.blink {
+  animation: blink 2s infinite;
+}
 @keyframes blink {
-  0%, 50%, 100%{
+  0%,
+  50%,
+  100% {
     opacity: 0;
   }
-  25%,75% {
+  25%,
+  75% {
     opacity: 1;
   }
 }
